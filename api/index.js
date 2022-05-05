@@ -1,6 +1,7 @@
 const express = require('express');
 const morgan = require('morgan');
 const HttpError = require('./v1/errors/http-error');
+const todoRouter = require('./v1/route/todo-router');
 
 const PORT = process.env.PORT || 3000;
 const app = express();
@@ -20,6 +21,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
 // Router level middleware here
+app.use("/v1/todo", todoRouter);
 
 // Error handling middleware
 app.use((error, request, response, next) => {
