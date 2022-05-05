@@ -21,7 +21,7 @@ module.exports = {
     },
 
     create: (req, res, next) => {
-        const todo = new Todo(idCounter++, req.body.todoname);
+        const todo = new Todo(idCounter++, req.body.task, req.body.status);
         todos.push(todo);
         res.status(200).json(todo);
     },
