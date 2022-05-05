@@ -1,8 +1,10 @@
 const TodoNotFoundError = require('../errors/todo-not-found-error.js');
 const Todo = require('../model/todo.js');
 
-let idCounter = 3;
+let idCounter = 4;
+const laundryTags = ["Clothes to go in Machine", "Machine on", "Hang up Clothes"];
 const todos = [new Todo(1, "Laundry", "Not Started"), new Todo(2, "Dishes", "Not Started"), new Todo(3, "Hoovering", "In Progress")];
+todos[0].tags = laundryTags;
 
 module.exports = {
 
@@ -22,6 +24,7 @@ module.exports = {
 
     create: (req, res, next) => {
         const todo = new Todo(idCounter++, req.body.task, req.body.status);
+        todo.tags = req.body.tags;
         todos.push(todo);
         res.status(200).json(todo);
     },
@@ -34,6 +37,7 @@ module.exports = {
         if (todo) {
             todo.task = updates.task;
             todo.status = updates.status;
+            todo.tags = updates.tags;
             res.status(200).json(todo);
             return;
         }
