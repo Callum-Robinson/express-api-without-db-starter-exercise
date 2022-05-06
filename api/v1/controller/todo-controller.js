@@ -10,9 +10,9 @@ module.exports = {
         res.status(200).json(todos);
     },
     
-    readById: (req, res, next) => {
+    readById: async (req, res, next) => {
         const id = req.params.id;
-        const todo = todos.find(todo => todo.id == id);
+        const todo = await Todo.findById(id);
         if (todo) {
             res.status(200).json(todo);
             return;
