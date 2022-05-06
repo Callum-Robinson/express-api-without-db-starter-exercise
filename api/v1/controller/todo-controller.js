@@ -31,7 +31,7 @@ module.exports = {
         }
     },
 
-    update: (req, res, next) => {
+    update: async (req, res, next) => {
         const id = req.params.id;
         const updates = req.body;
         
