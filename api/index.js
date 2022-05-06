@@ -1,9 +1,11 @@
 const express = require('express');
 const morgan = require('morgan');
+const mongoose = require('mongoose');
 const HttpError = require('./v1/errors/http-error');
 const TodoNotFoundError = require('./v1/errors/todo-not-found-error');
 const todoRouter = require('./v1/route/todo-router');
 
+const DB_URI = process.env.DB_URI || "mongodb://127.0.0.1:27017/todo-app";
 const PORT = process.env.PORT || 3000;
 const app = express();
 
@@ -44,7 +46,22 @@ app.use((error, request, response, next) => {
     })
 });
 
-// Start the server
-const server = app.listen(PORT, function() {
-    console.log(`Server up on ${PORT}`);
-});
+async function main() {
+    // connect to the database
+    await mongoose.connect(DB_URI, { useNewUrlParser: true })
+                  .then(() => console.log(`DB Connected: ${DB_URI}`));
+
+    // get the connection object
+    const db = mongoose.connection;
+
+    // bind error and connection events
+    db.on('error', console.error.bind(console, 'MongoDB connection error'));
+    db.on('connection', console.log.bind(console, 'MongoDB connected'));
+
+    // Start the server
+    const server = app.listen(PORT, function() {
+        console.log(`Server up on ${PORT}`);
+    });
+}
+
+main();
