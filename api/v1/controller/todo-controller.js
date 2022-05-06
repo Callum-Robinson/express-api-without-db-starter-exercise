@@ -34,11 +34,9 @@ module.exports = {
     update: (req, res, next) => {
         const id = req.params.id;
         const updates = req.body;
-        console.log(updates);
-        const todo = todos.find(todo => todo.id == id);
+        
+        const todo = await Todo.updateOne({ _id: id}, updates);
         if (todo) {
-            todo.task = updates.task;
-            todo.status = updates.status;
             res.status(200).json(todo);
             return;
         }
