@@ -1,12 +1,12 @@
 const TodoNotFoundError = require('../errors/todo-not-found-error.js');
 const Todo = require('../model/todo.js');
 
-let idCounter = 4;
-const todos = [new Todo(1, "Laundry", "Not Started"), new Todo(2, "Dishes", "Not Started"), new Todo(3, "Hoovering", "In Progress")];
 
 module.exports = {
 
-    readAll: (req, res, next) => {
+    readAll: async (req, res, next) => {
+        const todos = await Todo.find({});
+
         res.status(200).json(todos);
     },
     
