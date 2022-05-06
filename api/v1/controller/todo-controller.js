@@ -43,15 +43,12 @@ module.exports = {
         next(new TodoNotFoundError(id));
     },
 
-    delete: (req, res, next) => {
-        const id = req.params.id;
-        const todo = todos.find(todo => todo.id == id);
+    delete: async (req, res, next) => {
+        const filter = { _id: req.params.id };
+        const todo = await Todo.findOneAndDelete(filter);
 
         if (todo) {
-            const index = todos.indexOf(todo);
-            todos.splice(index, 1);
-            res.status(200).json(todo);
-            return;
+            return res.status(200).json(todo);
         }
         next(new TodoNotFoundError(id));
     }
