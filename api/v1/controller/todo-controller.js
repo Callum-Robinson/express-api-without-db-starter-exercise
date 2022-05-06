@@ -20,10 +20,15 @@ module.exports = {
         next(new TodoNotFoundError(id));
     },
 
-    create: (req, res, next) => {
-        const todo = new Todo(idCounter++, req.body.task, req.body.status);
-        todos.push(todo);
-        res.status(200).json(todo);
+    create: async (req, res, next) => {
+        const todo = new Todo(req.body);
+        
+        try {
+            await todo.save();
+            res.status(200).json(todo);
+        } catch (error) {
+            next(error);
+        }
     },
 
     update: (req, res, next) => {
