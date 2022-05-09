@@ -13,6 +13,8 @@ You must have the following:
 - A router for handling requests and passing them to the appropriate controller function
 - A custom exception for if a todo is not found
 
+Version 1 has been refactored to use mongoose with a MongoDB database.
+
 ## Version 2
 
 You must have the following:
